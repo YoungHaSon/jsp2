@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="file">
+
+	<insert id="insertFile" parameterType="fileVo">
+		insert into
+		db_file
+		values (
+		db_file_SEQ.nextval,
+		#{text_id},
+		#{file_path,jdbcType=VARCHAR},
+		#{file_name,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="fileList" parameterType="int" resultType="fileVo">
+		select *from
+		db_file
+		where
+		text_id = #{text_id}
+	</select>
+	
+	<select id="getfile" parameterType="int" resultType="fileVo">
+		select *
+		from db_file
+		where file_id = #{file_id}
+	</select>
+	
+	<delete id="del" parameterType="int">
+		delete from 
+			db_file
+		where 
+			file_id = #{file_id}
+	</delete>
+
+</mapper>

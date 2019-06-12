@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+<!-- 게시판 등록 -->
+	<insert id="insertBoard" parameterType="boardVo">
+		insert into DB_BOARD
+		VALUES
+			(db_board_SEQ.nextval,#{board_name},#{use_yn},sysdate,#{userid})
+	</insert>
+
+	 <!-- Y인 게시판 목록 가져오기 -->
+	<select id="boardList" resultType="boardVo">
+		select 
+			*
+		from 
+			DB_BOARD
+		where USE_YN = 'Y' 
+		order by BOARD_ID asc
+	</select>
+	
+	<select id="boardAllList" resultType="boardVo">
+		select 
+		    *
+		from 
+		    DB_BOARD
+		order by BOARD_ID asc
+	</select>
+	
+
+	
+	<!-- 게시판 번호로 게시판 한개 가져오기 -->
+	<select id="getBoard" resultType="boardVo" parameterType="int">
+		select
+			*
+		from 
+			DB_Board
+		where
+			board_id = #{board_id}
+	</select>
+	
+	<!-- Y에서 N -->
+	<update id="updateBoardYN" parameterType="boardVo">
+		update 
+			DB_BOARD
+		set 
+			BOARD_NAME = #{board_name}			
+			,USE_YN = #{use_yn}
+		where 
+			BOARD_ID = #{board_id}
+	</update>
+	
+	
+
+
+</mapper>

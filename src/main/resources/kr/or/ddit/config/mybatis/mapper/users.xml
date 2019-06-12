@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="users">
+
+	<select id="getUser" resultType="usersVo" parameterType="String">
+		select
+			*
+			from
+			users
+			where
+			USERID = #{userId}
+	</select>
+	
+	<select id="textPagingList" parameterType="Map" resultType="textVo">
+		<![CDATA[
+		select b.*
+		from
+		(SELECT A.*, ROWNUM RN FROM
+		          (SELECT p.*, LEVEL LV
+		              FROM db_text p WHERE board_id = #{board_id}
+		              START WITH TEXT_ID2
+		              IS NULL CONNECT BY PRIOR TEXT_ID = TEXT_ID2
+		              ORDER SIBLINGS BY GROUP_NUM DESC, TEXT_ID
+		          ) A) B
+		where rn >=(#{page}-1)*#{pageSize} + 1 and rn <=#{page}*#{pageSize}
+		]]>
+	</select>
+	
+	<!-- 사용자 전체 수 조회 -->
+	<select id="textCnt" resultType="int" parameterType="int">
+		select 
+			count(*)
+		from 
+			DB_text
+        where
+			board_id = #{board_id}
+	</select>
+
+
+</mapper>

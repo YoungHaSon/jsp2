@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com">
+
+
+	<insert id="insertCom" parameterType="comVo">
+		insert into 
+			DB_comment
+		VALUES
+			(
+			db_comment_SEQ.nextval,
+			#{text_id},
+			#{userid},
+			sysdate,
+			'Y',
+			#{com_content}
+			)
+	</insert>
+	
+	<select id="Comselect" resultType="comVo" parameterType="int">
+		select *
+		from 
+			db_comment
+		where 
+			TEXT_ID = #{text_id}
+			order by COM_ID 
+	</select>
+	
+	<update id="changeCol" parameterType="int">
+		update
+			db_comment
+		set
+			COL = 'N'
+		where
+			COM_ID = #{com_id}
+	</update>
+	
+	
+
+
+
+</mapper>

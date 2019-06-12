@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="text">
+
+	<insert id="insertText" parameterType="textVo">
+		insert into
+		db_text
+		values (
+		db_text_SEQ.nextval,
+		'',
+		#{board_id},
+		#{text_title},
+		#{text_content},
+		sysdate,
+		'Y',
+		#{userid},
+		db_text_SEQ.nextval
+		)
+	</insert>
+
+	<select id="allText" resultType="textVo" parameterType="int">
+		select
+		*
+		from
+		db_text
+		where
+		board_ID = #{board_id}
+		order by TEXT_DATE asc
+	</select>
+
+	<select id="getText" resultType="textVo" parameterType="int">
+		select
+		*
+		from
+		db_text
+		where
+		text_ID = #{text_ID}
+	</select>
+
+	<update id="updateText" parameterType="textVo">
+		update
+		DB_TEXT
+		set
+		TEXT_TITLE = #{text_title}
+		,TEXT_CONTENT = #{text_content}
+		where
+		TEXT_ID = #{text_id}
+	</update>
+
+	<update id="changeCol" parameterType="String">
+		update
+		DB_TEXT
+		set
+		COL = 'N'
+		where
+		TEXT_ID = #{text_id}
+	</update>
+
+	<insert id="insertReply" parameterType="textVo">
+		insert into
+		db_text
+		values
+		(
+		db_text_SEQ.nextval,
+		#{text_id2},
+		#{board_id},
+		#{text_title},
+		#{text_content},
+		sysdate,
+		'Y',
+		#{userid},
+		#{group_num}
+		)
+	</insert>
+
+	<select id="recentReply" resultType="textVo">
+		select* from 
+			(select * from
+		    db_text
+		    order by text_id desc)
+		    where rownum = 1
+	</select>
+	
+
+
+
+</mapper>
